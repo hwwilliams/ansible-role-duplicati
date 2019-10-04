@@ -1,0 +1,29 @@
+---
+language: python
+services: docker
+
+env:
+  global:
+    - ROLE_NAME: duplicati
+  matrix:
+    - MOLECULE_DISTRO: centos7
+    - MOLECULE_DISTRO: centos6
+    - MOLECULE_DISTRO: fedora27
+    - MOLECULE_DISTRO: ubuntu1804
+    - MOLECULE_DISTRO: ubuntu1604
+    - MOLECULE_DISTRO: debian9
+    - MOLECULE_DISTRO: debian8
+
+install:
+  - pip install molecule==2.19 docker
+
+before_script:
+  - cd ../
+  - mv ansible-role-$ROLE_NAME hwwilliams.$ROLE_NAME
+  - cd hwwilliams.$ROLE_NAME
+
+script:
+  - travis_wait molecule test
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

@@ -1,0 +1,16 @@
+---
+- name: Find Duplicati Release (Latest Release)
+  command: curl -s '{{ duplicati_github_url }}' | grep tar.gz | grep archive | cut -d \" -f 4 | head -1
+  register: duplicati_release
+  when: duplicati_release_version | lower == 'latest'
+
+- name: Find Duplicati Release (Specific Release)
+  command: curl -s '{{ duplicati_github_url }}' | grep tar.gz | grep archive | cut -d \" -f 4 | grep '{{ duplicati_release_version }}' | head -1
+  register: duplicati_release
+  when: not duplicati_release_version | lower == 'latest'
+
+- name: Build Duplicati Release Url
+  set_fact:
+    duplicati_release_url: 'https://github.com{{ duplicati_release }}'
+
+'https://github.com/duplicati/duplicati/tags'

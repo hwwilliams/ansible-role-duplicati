@@ -1,3 +1,7 @@
 ---
-duplicati_github_url: 'https://github.com/duplicati/duplicati/tags'
+# Github's API URL for release information
+github_api_url: 'https://api.github.com/repos'
+
+# Duplicati Github repo
+duplicati_github_repo: 'duplicati/duplicati'
 duplicati_release_version: latest

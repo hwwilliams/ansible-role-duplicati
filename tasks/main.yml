@@ -1,11 +1,25 @@
 ---
+- name: Build Duplicati Github Release URL
+  set_fact:
+    duplicati_github_url: '{{ github_api_url }}/{{ duplicati_github_repo }}/releases'
+
+- name: Set Release Distribution (Debian)
+  set_fact:
+    duplicati_release_distro: 'deb'
+  when: ansible_os_family | lower == 'debian'
+
+- name: Set Release Distribution (Redhat)
+  set_fact:
+    duplicati_release_distro: 'rpm'
+  when: ansible_os_family | lower == 'redhat'
+
 - name: Find Duplicati Release (Latest Release)
-  command: curl -s '{{ duplicati_github_url }}' | grep tar.gz | grep archive | cut -d \" -f 4 | head -1
+  command: curl -s '{{ duplicati_github_url }}' | grep browser_download_url | grep '{{ duplicati_release_distro }}' | head -1 | cut -d \" -f 4
   register: duplicati_release
   when: duplicati_release_version | lower == 'latest'
 
 - name: Find Duplicati Release (Specific Release)
-  command: curl -s '{{ duplicati_github_url }}' | grep tar.gz | grep archive | cut -d \" -f 4 | grep '{{ duplicati_release_version }}' | head -1
+  command: curl -s '{{ duplicati_github_url }}' | grep browser_download_url | grep '{{ duplicati_release_distro }}' | grep '{{ duplicati_release_version }}' | head -1 | cut -d \" -f 4
   register: duplicati_release
   when: not duplicati_release_version | lower == 'latest'
 
@@ -13,4 +27,25 @@
   set_fact:
     duplicati_release_url: 'https://github.com{{ duplicati_release }}'
 
-'https://github.com/duplicati/duplicati/tags'
+- name: Check If Netdata Temp Directory Exists
+  become: true
+  stat:
+    path: /tmp/duplicati
+  register: tempdirectory
+
+- name: Create Temporary Duplicati Dependency Script Directory
+  become: true
+  file:
+    path: /tmp/duplicati
+    state: directory
+    force: false
+  when: not tempdirectory.stat.exists | bool
+
+- name: Download Duplicati Release
+  become: true
+  get_url:
+    url: '{{ duplicati_release_url }}'
+    dest: /tmp/duplicati
+    mode: 0770
+  register: duplicati_download
+  when: tempdirectory.stat.exists | bool

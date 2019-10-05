@@ -4,8 +4,14 @@ dependencies: []
 galaxy_info:
   role_name: duplicati
   author: hwwilliams
-  description:
+  description: Installs Duplicati on Redhat based Linux machines
   license: license (MIT)
   min_ansible_version: 2.4
-  platforms: []
-  galaxy_tags: []
+  platforms:
+    - name: EL
+      versions:
+        - 7
+  galaxy_tags:
+    - duplicati
+    - system
+    - backup

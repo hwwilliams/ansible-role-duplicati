@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/hwwilliams/ansible-role-duplicati.svg?branch=master)](https://travis-ci.org/hwwilliams/ansible-role-duplicati)
 
-Installs [duplicati]() on Debian/Ubuntu and CentOS/Fedora/Redhat based Linux systems.
+Installs [duplicati](https://www.duplicati.com/) on Redhat based Linux machines
 
 This role installs and configures the latest version of duplicati from the offical [duplicati](https://github.com/duplicati/duplicati) Github repo.
 

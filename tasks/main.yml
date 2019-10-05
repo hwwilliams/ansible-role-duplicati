@@ -23,29 +23,16 @@
   register: duplicati_release
   when: not duplicati_release_version | lower == 'latest'
 
-- name: Build Duplicati Release Url
-  set_fact:
-    duplicati_release_url: 'https://github.com{{ duplicati_release }}'
-
-- name: Check If Netdata Temp Directory Exists
+- name: Download and Install Duplicati Release (Debian)
   become: true
-  stat:
-    path: /tmp/duplicati
-  register: tempdirectory
+  apt:
+    deb: '{{ duplicati_release }}'
+    state: present
+  when: ansible_os_family | lower == 'debian'
 
-- name: Create Temporary Duplicati Dependency Script Directory
+- name: Download and Install Duplicati Release (Redhat)
   become: true
-  file:
-    path: /tmp/duplicati
-    state: directory
-    force: false
-  when: not tempdirectory.stat.exists | bool
-
-- name: Download Duplicati Release
-  become: true
-  get_url:
-    url: '{{ duplicati_release_url }}'
-    dest: /tmp/duplicati
-    mode: 0770
-  register: duplicati_download
-  when: tempdirectory.stat.exists | bool
+  yum:
+    name: '{{ duplicati_release }}'
+    state: present
+  when: ansible_os_family | lower == 'redhat'

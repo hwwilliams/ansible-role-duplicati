@@ -25,16 +25,20 @@
   register: duplicati_release
   when: not duplicati_release_version | lower == 'latest'
 
+- name: Set Duplicati Release Variable
+  set_fact:
+    duplicati_release_url: '{{ duplicati_release.stdout }}'
+
 - name: Download and Install Duplicati Release (Debian)
   become: true
   apt:
-    deb: '{{ duplicati_release }}'
+    deb: '{{ duplicati_release_url }}'
     state: present
   when: ansible_os_family | lower == 'debian'
 
 - name: Download and Install Duplicati Release (Redhat)
   become: true
   yum:
-    name: '{{ duplicati_release }}'
+    name: '{{ duplicati_release_url }}'
     state: present
   when: ansible_os_family | lower == 'redhat'

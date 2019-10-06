@@ -14,12 +14,14 @@
   when: ansible_os_family | lower == 'redhat'
 
 - name: Find Duplicati Release (Latest Release)
-  command: curl -s '{{ duplicati_github_url }}' | grep browser_download_url | grep '{{ duplicati_release_distro }}' | head -1 | cut -d \" -f 4
+  tags: ["skip_ansible_lint"]
+  shell: curl -s '{{ duplicati_github_url }}' | grep browser_download_url | grep '{{ duplicati_release_distro }}' | head -1 | cut -d \" -f 4
   register: duplicati_release
   when: duplicati_release_version | lower == 'latest'
 
 - name: Find Duplicati Release (Specific Release)
-  command: curl -s '{{ duplicati_github_url }}' | grep browser_download_url | grep '{{ duplicati_release_distro }}' | grep '{{ duplicati_release_version }}' | head -1 | cut -d \" -f 4
+  tags: ["skip_ansible_lint"]
+  shell: curl -s '{{ duplicati_github_url }}' | grep browser_download_url | grep '{{ duplicati_release_distro }}' | grep '{{ duplicati_release_version }}' | head -1 | cut -d \" -f 4
   register: duplicati_release
   when: not duplicati_release_version | lower == 'latest'
 

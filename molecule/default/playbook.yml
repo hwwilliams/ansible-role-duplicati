@@ -10,10 +10,12 @@
           - '!all'
           - network
           - hardware
+    - name: Ensure Package Cache Is up to Date
+      apt: update_cache=true cache_valid_time=600
+      when: ansible_os_family | lower == 'debian'
     - name: Ensure Required Packages Are Present
       become: true
-      apt:
-        name: '{{ item }}'
+      apt: name='{{ item }}'
       loop:
         - xz-utils
       when: ansible_os_family | lower == 'debian'

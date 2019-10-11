@@ -1,63 +1,15 @@
 ---
-- name: Build Duplicati Github Release URL
-  set_fact:
-    duplicati_github_url: '{{ github_api_url }}/{{ duplicati_github_repo }}/releases'
+- name: Import Find Release Tasks
+  tags: ["install-duplicati"]
+  import_tasks:
+    file: find_release.yml
 
-- name: Set Duplicati Release Distribution (Redhat)
-  set_fact:
-    duplicati_release_distro: 'rpm'
-  when: ansible_os_family | lower == 'redhat'
+- name: Import Install Tasks
+  tags: ["install-duplicati"]
+  import_tasks:
+    file: install.yml
 
-- name: Set Duplicati Release Distribution (Debian)
-  set_fact:
-    duplicati_release_distro: 'deb'
-  when: ansible_os_family | lower == 'debian'
-
-- name: Gather Duplicati Releases
-  uri: url='{{ duplicati_github_url }}' return_content=true
-  register: duplicati_url_result
-
-- name: Build Duplicati Asset List
-  set_fact:
-    duplicati_asset_list: "{{ duplicati_url_result.json | map(attribute='assets') | list | flatten }}"
-
-- name: Build Duplicati Download URL List
-  set_fact:
-    duplicati_download_url_list: "{{ duplicati_asset_list | map(attribute='browser_download_url') | list }}"
-
-- name: Filter Duplicati Release URL List by Distribution
-  set_fact:
-    duplicati_release_distro_url_list: "{{ duplicati_download_url_list | select('search', duplicati_release_distro) | list }}"
-
-- name: Get Duplicati Release URL List (Latest)
-  set_fact:
-    duplicati_release_url_list: "{{ duplicati_release_distro_url_list | list }}"
-  when:
-    - duplicati_release_version is defined
-    - duplicati_release_version | lower == 'latest'
-
-- name: Get Duplicati Release URL List (Specific)
-  set_fact:
-    duplicati_release_url_list: "{{ duplicati_release_distro_url_list | select('search', duplicati_release_version) | list }}"
-  when:
-    - duplicati_release_version is defined
-    - not duplicati_release_version | lower == 'latest'
-
-- name: Filter for First Duplicati Release URL
-  set_fact:
-    duplicati_release_url: "{{ duplicati_release_url_list | list | first }}"
-  when: duplicati_release_url_list | list | first is defined
-
-- name: Download and Install Duplicati Release (Debian)
-  become: true
-  apt:
-    deb: '{{ duplicati_release_url }}'
-    state: present
-  when: ansible_os_family | lower == 'debian'
-
-- name: Download and Install Duplicati Release (Redhat)
-  become: true
-  yum:
-    name: '{{ duplicati_release_url }}'
-    state: present
-  when: ansible_os_family | lower == 'redhat'
+- name: Import Service Tasks
+  tags: ["install-duplicati", "install-duplicati-service"]
+  import_tasks:
+    file: service.yml

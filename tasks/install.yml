@@ -1,0 +1,14 @@
+---
+- name: Download and Install Duplicati Release (Debian)
+  become: true
+  apt:
+    deb: '{{ duplicati_release_url }}'
+    state: present
+  when: ansible_os_family | lower == 'debian'
+
+- name: Download and Install Duplicati Release (Redhat)
+  become: true
+  yum:
+    name: '{{ duplicati_release_url }}'
+    state: present
+  when: ansible_os_family | lower == 'redhat'

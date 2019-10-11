@@ -1,0 +1,12 @@
+---
+- name: Ensure Duplicati Service File is Present
+  become: true
+  template:
+    src: templates/duplicati/duplicati.service.j2
+    dest: /etc/systemd/system/duplicati.service
+    mode: 0644
+  notify: Restart Duplicati
+
+- name: Ensure Duplicati Service is Enabled
+  become: true
+  service: name=duplicati enabled=true

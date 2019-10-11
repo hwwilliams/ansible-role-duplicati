@@ -1,0 +1,10 @@
+---
+- name: Restart Duplicati
+  become: true
+  service: name=duplicati state=restarted
+
+- name: Reload Systemd Daemon If Needed
+  become: true
+  listen: Restart Duplicati
+  systemd: daemon_reload=true
+  when: ansible_service_mgr | lower == 'systemd'

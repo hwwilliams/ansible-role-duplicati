@@ -1,7 +1,12 @@
 ---
 # Github's API URL for release information
-github_api_url: 'https://api.github.com/repos'
+github_api_url: https://api.github.com/repos
 
 # Duplicati Github repo
-duplicati_github_repo: 'duplicati/duplicati'
+duplicati_github_repo: duplicati/duplicati
+
+# Duplicati release version
+# Possible options are 'latest'
+# or a specific release such as
+# 'v2.0.4.5' or '2.0.4.10'
 duplicati_release_version: latest

@@ -10,3 +10,12 @@ duplicati_github_repo: duplicati/duplicati
 # or a specific release such as
 # 'v2.0.4.5' or '2.0.4.10'
 duplicati_release_version: latest
+
+# Default port for the Duplicati web UI
+duplicati_web_port: 8200
+
+## Duplicati service user
+# This is the user account that
+# would be used to run the daemon
+# If left blank the service runs as root
+duplicati_service_user: ''

@@ -3,7 +3,7 @@ Description=Duplicati Backup software
 After=network.target
 
 [Service]
-User={{ duplicati_user }}
+User={{ duplicati_service_user | default(omit) }}
 Nice=19
 IOSchedulingClass=idle
 EnvironmentFile=-/etc/default/duplicati

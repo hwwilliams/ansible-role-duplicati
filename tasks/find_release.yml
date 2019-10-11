@@ -3,6 +3,10 @@
   set_fact:
     duplicati_github_url: '{{ github_api_url }}/{{ duplicati_github_repo }}/releases'
 
+- name: Gather Duplicati Releases
+  uri: url='{{ duplicati_github_url }}' return_content=true
+  register: duplicati_url_result
+
 - name: Set Duplicati Release Distribution (Redhat)
   set_fact:
     duplicati_release_distro: 'rpm'
@@ -12,10 +16,6 @@
   set_fact:
     duplicati_release_distro: 'deb'
   when: ansible_os_family | lower == 'debian'
-
-- name: Gather Duplicati Releases
-  uri: url='{{ duplicati_github_url }}' return_content=true
-  register: duplicati_url_result
 
 - name: Build Duplicati Asset List
   set_fact:

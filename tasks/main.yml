@@ -5,6 +5,7 @@
     file: find_release.yml
 
 - name: Warn If Specified Duplicati Version Doesn't Exist
+  tags: ["install-duplicati"]
   debug:
     msg: "Duplicati version {{ duplicati_release_version }} wasn't found on Github."
   when:

@@ -4,12 +4,21 @@
   import_tasks:
     file: find_release.yml
 
+- name: Warn If Specified Duplicati Version Doesn't Exist
+  debug:
+    msg: "Duplicati version {{ duplicati_release_version }} wasn't found on Github."
+  when:
+    - not duplicati_release_version | lower == 'latest'
+    - duplicati_release_url is defined
+
 - name: Import Install Tasks
   tags: ["install-duplicati"]
   import_tasks:
     file: install.yml
+  when: duplicati_release_url is defined
 
 - name: Import Service Tasks
   tags: ["install-duplicati", "install-duplicati-service"]
   import_tasks:
     file: service.yml
+  when: duplicati_release_url is defined

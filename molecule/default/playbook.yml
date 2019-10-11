@@ -10,5 +10,12 @@
           - '!all'
           - network
           - hardware
+    - name: Ensure Required Packages Are Present
+      become: true
+      apt:
+        name: '{{ item }}'
+      loop:
+        - xz-utils
+      when: ansible_os_family | lower == 'debian'
   roles:
     - role: hwwilliams.duplicati

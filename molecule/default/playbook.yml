@@ -20,4 +20,5 @@
         - xz-utils
       when: ansible_os_family | lower == 'debian'
   roles:
+    - role: jewflix.mono
     - role: hwwilliams.duplicati

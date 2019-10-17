@@ -1,4 +1,8 @@
 ---
+- name: Import Service Cmd Tasks
+  import_tasks:
+    file: service-cmd.yml
+
 - name: Ensure Duplicati Service File is Present
   become: true
   template:

@@ -1,0 +1,5 @@
+---
+duplicati_base_cmd: /usr/bin/mono /usr/lib/duplicati/Duplicati.Server.exe
+duplicati_webservice_port: --webservice-port={{ duplicati_web_port }}
+duplicati_webservice_interface: --webservice-interface={{ duplicati_web_interface }}
+duplicati_webservice_allowed_hostnames: --webservice-allowed-hostnames={{ duplicati_web_hostnames }}

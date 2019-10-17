@@ -7,7 +7,7 @@ User={{ duplicati_service_user | default(omit) }}
 Nice=19
 IOSchedulingClass=idle
 EnvironmentFile=-/etc/default/duplicati
-ExecStart=/usr/bin/mono /usr/lib/duplicati/Duplicati.Server.exe --webservice-port={{ duplicati_web_port }} --webservice-interface=any
+ExecStart={{ duplicati_execstart_cmd }}
 Restart=always
 
 [Install]

@@ -14,6 +14,15 @@ duplicati_release_version: latest
 # Default port for the Duplicati web UI
 duplicati_web_port: 8200
 
+# Interface for the Duplicati web UI
+# Can be any or IP based
+duplicati_web_interface: any
+
+# Allowed hostnames for the Duplicati
+# web UI
+# '*' means any hostname
+duplicati_web_hostnames: *
+
 ## Duplicati service user
 # This is the user account that
 # would be used to run the daemon

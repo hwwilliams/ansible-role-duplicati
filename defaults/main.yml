@@ -21,7 +21,7 @@ duplicati_web_interface: any
 # Allowed hostnames for the Duplicati
 # web UI
 # '*' means any hostname
-duplicati_web_hostnames: *
+duplicati_web_hostnames: '*'
 
 ## Duplicati service user
 # This is the user account that

@@ -10,7 +10,7 @@ Also on [Ansible Galaxy](https://galaxy.ansible.com/hwwilliams/duplicati).
 
 ## Requirements
 
-None.
+Recent version of Mono, I haven't included this in the role yet but will provide an option in the future. CentOS 7 was the only host so far I've found that had issues with its default version of Mono.
 
 ## Role Variables
 
